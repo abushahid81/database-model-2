@@ -83,9 +83,9 @@ const updateNote = asyncHandler(async (req, res) => {
       note.description = description || note.description;
       note.price = price || note.price;
       note.variant = variant || note.variant;
-      note.name = name || note.name;
-      note.email = email || note.email;
-      note.message = message || note.message;
+      // note.name = name || note.name;
+      // note.email = email || note.email;
+      // note.message = message || note.message;
       note.isArchived = archivedToggle === undefined ? note.isArchived : archivedToggle;
 
       await note.save();

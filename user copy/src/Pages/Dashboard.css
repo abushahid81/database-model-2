@@ -1,0 +1,56 @@
+/* Dashboard.css */
+.table {
+    margin: 20px auto;
+    width: 90%;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 12px;
+}
+
+.table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.btn-1 {
+    margin: 20px auto;
+    display: block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-1:hover {
+    background-color: #0056b3;
+}
+
+.modal-header,
+.modal-footer {
+    background-color: #f1f1f1;
+}
+
+.modal-title {
+    color: #007bff;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.btn {
+    margin: 5px;
+}

@@ -1,17 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Sidebar'
 
 const Sidebar = () => {
     return (
         <div style={{ width: '200px', height: '100vh', backgroundColor: '#f0f0f0', padding: '20px' }}>
-            <h2>Product</h2>
+            <h2>Dashboard</h2>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
-                <li><Link to="/">Product</Link></li>
-                {/* <li><Link to="/Contact">Contact Us</Link></li> */}
-                {/* <li><Link to="/Dashboard">Dashboard</Link></li> */}
-                <li><Link to="/Form">Form</Link></li>
-                <li><Link to="/DashPage" >Admin</Link></li>
+                <li><Link to="/">Product Dashboard</Link></li>
+                <li><Link to="/contact">Contact Us</Link></li>
+                <li><Link to="/form">Form</Link></li>
             </ul>
         </div>
     );
