@@ -9,12 +9,12 @@ import Form from 'react-bootstrap/Form';
 
 function ContactForm() {
     const [show, setShow] = useState(false);
+    const [id, setId] = useState("");
     const [contacts, setContacts] = useState([]);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
-    const [id, setId] = useState("");
 
     useEffect(() => {
         getContacts();
@@ -43,12 +43,8 @@ function ContactForm() {
     const handleContact = (e) => {
         e.preventDefault();
 
-        const contactData = { name, email, phone, message };
-        console.log("Submitting Contact:", contactData); // Debug log
-
         if (id) {
-            console.log("Updating Contact ID:", id); // Debug log
-            axios.put(`http://localhost:5002/users/${id}`, contactData)
+            axios.put(`http://localhost:5002/users/${id}`, { name, email, phone, message })
                 .then((response) => {
                     getContacts();
                     handleClose();
@@ -57,7 +53,7 @@ function ContactForm() {
                     console.error("Error updating contact:", error);
                 });
         } else {
-            axios.post("http://localhost:5002/users", contactData)
+            axios.post("http://localhost:5002/users", { name, email, phone, message })
                 .then((response) => {
                     getContacts();
                     handleClose();
@@ -85,23 +81,20 @@ function ContactForm() {
         }
     };
 
-    const editForm = (contact) => {
-        console.log("Editing Contact:", contact); // Debug log
-        setId(contact._id);
-        setName(contact.name);
-        setEmail(contact.email);
-        setPhone(contact.phone);
-        setMessage(contact.message);
+    const userForm = (userContact) => {
+        setId(userContact._id);
+        setName(userContact.name);
+        setEmail(userContact.email);
+        setPhone(userContact.phone);
+        setMessage(userContact.message);
+        setShow(true);
 
-        // Use a timeout to ensure state is updated before showing the form
-        setTimeout(() => {
-            handleShow();
-        }, 100);
+        // handleShow();
     };
 
     return (
         <>
-            <Button variant="primary" className='btn-1' onClick={handleShow}>
+            <Button variant="success" className='btn-1' onClick={handleShow}>
                 Add Contact
             </Button>
 
@@ -110,7 +103,7 @@ function ContactForm() {
                     <Modal.Title>{id ? 'Edit Contact' : 'Add Contact'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form onSubmit={handleContact}>
+                    <Form onSubmit={handleContact}>
                         <FloatingLabel controlId="floatingName" label="Name" className="mb-3">
                             <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                         </FloatingLabel>
@@ -124,10 +117,10 @@ function ContactForm() {
                             <Form.Control type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
                         </FloatingLabel>
 
-                        <Button variant="primary" type='submit' className='ms-3'>
+                        <Button variant="outline-primary" type='submit' className='ms-3'>
                             {id ? 'Update' : 'Add'}
                         </Button>
-                    </form>
+                    </Form>
                 </Modal.Body>
             </Modal>
 
@@ -151,7 +144,7 @@ function ContactForm() {
                             <td>{contact.phone}</td>
                             <td>{contact.message}</td>
                             <td>
-                                <Button variant="primary" onClick={() => editForm(contact)}>Edit</Button>
+                                <Button variant="info" onClick={() => userForm(contact)}>Edit</Button>
                                 <Button variant="danger" onClick={() => handleDelete(contact._id)}>Delete</Button>
                             </td>
                         </tr>

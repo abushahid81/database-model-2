@@ -90,11 +90,11 @@ const updateUser = asyncHandler(async (req, res) => {
 
             res.json({
                 code: 200,
-                remarl: "user updated",
+                remark: "User updated",
             });
         } else {
             console.log(error);
-            res.status(404);
+            res.status(404).json;
             res.json({
                 code: 404,
                 remark: "User not found",

@@ -24,6 +24,8 @@ function Example() {
         axios.get('http://localhost:5002/notes')
             .then((res) => {
                 setProducts(res.data.data);
+                console.log(res.data.data);
+
             })
 
     };
@@ -34,7 +36,7 @@ function Example() {
     };
 
     const handleShow = () => {
-        clearForm();
+        // clearForm();
         setShow(true);
     };
 
@@ -43,14 +45,10 @@ function Example() {
 
         if (id) {
             // Update product
-            axios.put('http://localhost:5002/notes', { title, description, variant, price })
+            axios.put(`http://localhost:5002/notes/${id}`, { title, description, variant, price }) // Include the id in the URL
                 .then((response) => {
-                    getProduct("");
-                    setId("");
-                    setTitle("");
-                    setVariant("")
-                    setDescription("");
-                    setPrice("")
+                    console.log("Product Updated:", response.data.data);
+                    getProduct();
                     handleClose();
                 })
                 .catch((error) => {
@@ -58,15 +56,11 @@ function Example() {
                 });
         } else {
             // Add new product
-            axios.post("http://localhost:5002/notes", { title, description, variant, price })
+            const newProduct = { title, description, variant, price }
+            axios.post(`http://localhost:5002/notes`, newProduct) // Remove the id from the URL when adding a new product
                 .then((response) => {
-                    getProduct("");
-                    setId("");
-                    setTitle("");
-                    setVariant("");
-                    setDescription("");
-                    setPrice("")
-                    clearForm("");
+                    console.log("Product Updated:", response.data.data);
+                    getProduct();
                     handleClose();
                 })
                 .catch((error) => {
@@ -74,6 +68,7 @@ function Example() {
                 });
         }
     };
+
 
     const clearForm = () => {
         setId("");
@@ -92,26 +87,28 @@ function Example() {
         }
     };
 
-    const userform = (noteData) => {
+    const noteform = (noteData) => {
+        console.log("Editing Product:", noteData);
         setId(noteData._id);
         setTitle(noteData.title);
         setDescription(noteData.description);
         setVariant(noteData.variant);
         setPrice(noteData.price);
-        handleShow();
+        setShow(true);
+
+        // handleShow();
     };
+
 
     return (
         <>
-            <Button variant="primary" className='btn-1' onClick={handleShow}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
+            <Button variant="outline-primary" className='btn-1' onClick={handleShow}>
+                Add Product
             </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{id ? 'Edit Product' : 'Add Product'}</Modal.Title>
+                    <Modal.Title></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleCustomer}>
@@ -127,15 +124,14 @@ function Example() {
                         <FloatingLabel controlId="floatingPrice" label="Price" className="mb-3">
                             <Form.Control type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
                         </FloatingLabel>
-
-                        <Button variant="primary" type='submit' className='ms-3'>
+                        <Button variant="success" type='submit' className='ms-3'>
                             {id ? 'Update' : 'Add'}
                         </Button>
                     </Form>
                 </Modal.Body>
             </Modal>
 
-            <Table striped bordered hover>
+            <Table>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -155,8 +151,8 @@ function Example() {
                             <td>{data.variant}</td>
                             <td>{data.price}</td>
                             <td>
-                                <Button variant="primary" onClick={() => userform(data)}>Edit</Button>
-                                <Button variant="danger" onClick={() => handleDelete(data._id)}>Delete</Button>
+                                <Button variant="outline-info" onClick={() => noteform(data)}>Edit</Button>
+                                <Button variant="outline-danger" onClick={() => handleDelete(data._id)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
